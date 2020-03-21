@@ -23,6 +23,7 @@ const notify = async () => {
 		data = await stats.fetchData();
 	} catch ( err ) {
 		console.log( err )
+		return
 	}
 
 	let localData   = await app.getLocalStorageByKey( 'covidStats' ),
