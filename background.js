@@ -15,15 +15,11 @@ const notify = async () => {
 	// Let's keep this console log, so we know alarm has been triggered
 	console.log( 'refreshed' )
 
-	// Variable to store statistics data
-	let data;
+	// Fetch API data
+	let data = await stats.fetchAPIData()
 
-	try {
-		// Fetch stats
-		data = await stats.fetchData();
-	} catch ( err ) {
-		console.log( err )
-	}
+	// If API data is not available. stop execution
+	if ( !data ) return
 
 	let localData   = await app.getLocalStorageByKey( 'covidStats' ),
 		bubbleCount = await app.getLocalStorageByKey( 'bubbleCount' ),
