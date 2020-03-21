@@ -3,9 +3,6 @@ import app from "./app.js"
 // API URL 
 const apiURL = 'http://hpb.health.gov.lk/api/get-current-statistical'
 
-// Private variable to keep type of data
-let _type    = 'local'
-
 // Module object to export
 const module = {}
 
