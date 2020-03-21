@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "COVID-19 Statistics - Sri Lanka / Global",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"icons": { "128": "icon_128.png" },
 	"permissions": ["alarms", "storage", "notifications"],
 	"browser_action": {
