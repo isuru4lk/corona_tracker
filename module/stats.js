@@ -159,21 +159,17 @@ const toggleData = async ( element ) => {
 	// Show loading spinner while data being fetched
 	_loadingSpinner();
 
-	// Variable to store statistics data
-	let data;
-
-	try {
-		data = await module.fetchData()
-	} catch ( err ) {
-		console.log( err )
-		return
-	}
-
 	// Toggle data attribute type
 	element.getAttribute( 'data-type' ) == 'local' ? element.setAttribute( 'data-type', 'global' ) : element.setAttribute( 'data-type', 'local' )
 
 	// Toggle the side of the switch icon
 	element.classList.toggle( 'fa-rotate-180' );
+
+	// Load data from the API / local storage
+	let data = await module.fetchData()
+
+	// If data is not available, stop execution
+	if ( !data ) return
 
 	// Store in local storage
 	module.setLocalStorageData( data )
@@ -197,7 +193,7 @@ module.setLocalStorageData = ( data ) => {
 /**
  * Fetch data from API
  */
-module.fetchData = async () => {
+module.fetchAPIData = async () => {
 	try {
 		let response = await fetch( apiURL )
 		let { data } = await response.json()
@@ -205,7 +201,28 @@ module.fetchData = async () => {
 		return data
 	} catch ( err ) {
 		console.log(err)
+		return false
 	}
+}
+
+/**
+ * Fetch data from API / local storage
+ */
+module.fetchData = async () => {
+	// Load data from the API
+	let data = await module.fetchAPIData()
+
+	// If API data is available return it
+	if ( data ) return data
+
+	// If there is no API data use data we've stored in local storage
+	data = await app.getLocalStorageByKey( 'covidStats' )
+	
+	// If local data is also not available, stop executing
+	if ( typeof data === 'undefined' ) return false
+
+	// Return local storage data
+	return data
 }
 
 /**
@@ -215,13 +232,15 @@ module.init = async () => {
 	// Show loading spinner while data being fetched
 	_loadingSpinner()
 
-	// Variable to store statistics data
-	let data;
+	// Hide extension badge
+	chrome.browserAction.setBadgeText({ text: '' })
 
-	try {
-		data = await module.fetchData()
-	} catch ( err ) {
-		console.log( err )
+	// Load data from the API / local storage
+	let data = await module.fetchData()
+
+	// If data is not available, register events and stop execution
+	if ( !data ) {
+		_registerEvents()
 		return
 	}
 
@@ -233,9 +252,6 @@ module.init = async () => {
 
 	// Register events
 	_registerEvents()
-
-	// Hide extension badge
-	chrome.browserAction.setBadgeText({ text: '' })
 }
 
 // Export the module
