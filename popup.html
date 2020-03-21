@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+	<link rel="stylesheet" href="popup.css">
+	<title>COVID-19 Statistics - Sri Lanka / Global</title>
+</head>
+<body>
+	<div class="grid-container">
+		<div class="grid-item header">
+			COVID-19 Statistics - Sri Lanka / Global
+		</div>
+		<div class="grid-item controllers">
+			<i class="fas fa-bars"></i>
+			<i class="fas fa-times-circle"></i>
+		</div>
+		<div class="grid-item switcher">
+			<span>Sri Lanka</span>
+			<i class="fas fa-toggle-on fa-2x fa-rotate-180" data-type="local"></i>
+			<span>Global</span>
+		</div>
+		<div class="grid-item stats" id="newCases">
+			<div class="icon"><i class="fas fa-ambulance"></i></div>
+			<div class="title">New Cases</div>
+			<div class="count"></div>
+		</div>
+		<div class="grid-item stats" id="totalCases">
+			<div class="icon"><i class="fas fa-clinic-medical"></i></div>
+			<div class="title">Total cases</div>
+			<div class="count"></div>
+		</div>
+		<div class="grid-item stats" id="recovered">
+			<div class="icon"><i class="fas fa-user-shield"></i></div>
+			<div class="title">Recovered</div>
+			<div class="count"></div>
+		</div>
+		<div class="grid-item stats" id="deaths">
+			<div class="icon"><i class="fas fa-bed"></i></div>
+			<div class="title">Deaths</div>
+			<div class="count"></div>
+		</div>
+		<div class="settings">
+			<div class="content">
+				<div class="bg-refresh">
+					<label>Background refresh<input type="checkbox" value="1" id="refresh"></label>
+					<select name="interval" id="interval" disabled>
+						<option value="1">1 Minute</option>
+						<option value="2">2 Minutes</option>
+						<option value="5" selected>5 Minutes</option>
+						<option value="10">10 Minutes</option>
+						<option value="20">20 Minutes</option>
+						<option value="30">30 Minutes</option>
+						<option value="60">1 Hour</option>
+						<option value="120">2 Hours</option>
+					</select>
+				</div>
+				<div class="footer">
+					Made by <a href="https://www.facebook.com/DJNEoN/" target="_blank">Isuru</a> with <i class="fas fa-heart fa-beat"></i> | Powered by <a href="https://hpb.health.gov.lk/en/api-documentation" target="_blank">hpb.health.gov.lk</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="module" src="popup.js"></script>
+</body>
+</html>
