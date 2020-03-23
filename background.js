@@ -48,6 +48,6 @@ const notify = async () => {
 		chrome.browserAction.setBadgeText({ text: `${newCasesCount}` })
 
 		// Set number of current new cases as bubbleCount in local storage
-		app.setLocalStorageData('bubbleCount', newCasesCount);
+		app.setLocalStorageData(bubbleCountKey, newCasesCount);
 	}
 }
