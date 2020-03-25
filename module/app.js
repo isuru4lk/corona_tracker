@@ -21,7 +21,7 @@ module.setLocalStorageData = async ( key, value )  => {
 		try {
 			let obj = {};
 			obj[key] = value;
-			chrome.storage.sync.set( obj, ( result ) => {
+			chrome.storage.sync.set({ [key]: value }, ( result ) => {
 				resolve( true )
 			})
 		} catch ( err ) {
