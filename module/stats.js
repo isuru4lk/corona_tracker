@@ -186,7 +186,7 @@ module.cleanAndSetLocalStorageData = ( data ) => {
 	delete data.hospital_data
 
 	// Store in local storage
-	app.setLocalStorageData(storageKey, data);
+	app.setLocalStorageData( storageKey, data )
 }
 
 /**
