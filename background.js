@@ -1,6 +1,6 @@
 import stats from "./module/stats.js"
 import app from "./module/app.js"
-import constants from './constants.js'
+import { covidStatsKey, bubbleCountKey } from './constants.js'
 
 /**
  * Listen to alarm 'refresh' and notify user
@@ -22,8 +22,8 @@ const notify = async () => {
 	// If API data is not available. stop execution
 	if ( !data ) return
 
-	let localData   = await app.getLocalStorageByKey( constants.covidStatsKey ),
-		bubbleCount = await app.getLocalStorageByKey( constants.bubbleCountKey ),
+	let localData   = await app.getLocalStorageByKey( covidStatsKey ),
+		bubbleCount = await app.getLocalStorageByKey( bubbleCountKey ),
 		newCasesCount = data.local_total_cases - localData.local_total_cases
 
 	// If undefined set default value 0
@@ -48,6 +48,6 @@ const notify = async () => {
 		chrome.browserAction.setBadgeText({ text: `${newCasesCount}` })
 
 		// Set number of current new cases as bubbleCount in local storage
-		app.setLocalStorageData( constants.bubbleCountKey, newCasesCount )
+		app.setLocalStorageData( bubbleCountKey, newCasesCount )
 	}
 }

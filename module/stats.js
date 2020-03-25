@@ -1,5 +1,5 @@
 import app from "./app.js";
-import constants from './../constants.js'
+import { covidStatsKey } from './../constants.js'
 
 // API URL 
 const apiURL = 'http://hpb.health.gov.lk/api/get-current-statistical'
@@ -167,7 +167,7 @@ const toggleData = async ( element ) => {
 	element.classList.toggle( 'fa-rotate-180' );
 
 	// Load data from the local storage because its a toggle
-	let data = await app.getLocalStorageByKey( constants.covidStatsKey );
+	let data = await app.getLocalStorageByKey( covidStatsKey );
 	// If data is not available, then fetch from api
 	if ( !data )
 		data = await module.fetchData();
@@ -186,7 +186,7 @@ module.cleanAndSetLocalStorageData = ( data ) => {
 	delete data.hospital_data
 
 	// Store in local storage
-	app.setLocalStorageData( constants.covidStatsKey, data )
+	app.setLocalStorageData( covidStatsKey, data )
 }
 
 /**
@@ -215,7 +215,7 @@ module.fetchData = async () => {
 	if ( data ) return data
 
 	// If there is no API data use data we've stored in local storage
-	data = await app.getLocalStorageByKey( constants.covidStatsKey )
+	data = await app.getLocalStorageByKey( covidStatsKey )
 	
 	// If local data is also not available, stop executing
 	if ( typeof data === 'undefined' ) return false

@@ -1,7 +1,9 @@
 // All constants and configs go here
-const constants = {
-  covidStatsKey: 'covidStats',
-  bubbleCountKey: 'bubbleCount'
-}
+const covidStatsKey = 'covidStats';
+const bubbleCountKey = 'bubbleCount';
 
-export default constants;
+
+export {
+  covidStatsKey,
+  bubbleCountKey
+}; 
