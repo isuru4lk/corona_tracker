@@ -247,7 +247,7 @@ module.init = async () => {
 	_renderData( data )
 
 	// Store in local storage
-	module.cleanAndSetLocalStorageData( data );
+	module.cleanAndSetLocalStorageData( data )
 
 	// Register events
 	_registerEvents()
