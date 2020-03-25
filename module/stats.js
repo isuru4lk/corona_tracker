@@ -1,5 +1,5 @@
 import app from "./app.js";
-import { storageKey } from './../config.js';
+import { storageKey } from './../config.js'
 
 // API URL 
 const apiURL = 'http://hpb.health.gov.lk/api/get-current-statistical'
