@@ -1,6 +1,6 @@
 import stats from "./module/stats.js"
 import app from "./module/app.js"
-import { storageKey, bubbleCountKey } from './config.js';
+import { storageKey, bubbleCountKey } from './config.js'
 
 /**
  * Listen to alarm 'refresh' and notify user
