@@ -166,11 +166,13 @@ const toggleData = async ( element ) => {
 	// Toggle the side of the switch icon
 	element.classList.toggle( 'fa-rotate-180' );
 
-	// Load data from the local storage because its a toggle
-	let data = await app.getLocalStorageByKey( covidStatsKey );
-	// If data is not available, then fetch from api
+	
+	// Fetch from api
+	let data = await module.fetchData();
+
+	// If data is not available, then load data from the local storage
 	if ( !data )
-		data = await module.fetchData();
+		data = await app.getLocalStorageByKey( covidStatsKey );
 
 	// Store in local storage
 	// Now we render the data
