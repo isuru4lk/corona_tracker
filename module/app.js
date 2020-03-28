@@ -16,5 +16,22 @@ module.getLocalStorageByKey = async ( key )  => {
 	})
 }
 
+/**
+ * Set values to chrome local storage by key
+ */
+module.setLocalStorageData = async ( key, value )  => {
+	return new Promise(( resolve, reject ) => {
+		try {
+			let obj = {};
+			obj[key] = value;
+			chrome.storage.sync.set({ [key]: value }, ( result ) => {
+				resolve( true )
+			})
+		} catch ( err ) {
+			reject( err )
+		}
+	})
+}
+
 // Export the module
 export default module;
