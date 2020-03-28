@@ -1,4 +1,5 @@
-import app from "./app.js"
+import app from "./app.js";
+import { covidStatsKey } from './../constants.js'
 
 // API URL 
 const apiURL = 'http://hpb.health.gov.lk/api/get-current-statistical'
@@ -165,15 +166,15 @@ const toggleData = async ( element ) => {
 	// Toggle the side of the switch icon
 	element.classList.toggle( 'fa-rotate-180' );
 
-	// Load data from the API / local storage
-	let data = await module.fetchData()
+	
+	// Fetch from api
+	let data = await module.fetchData();
 
-	// If data is not available, stop execution
-	if ( !data ) return
+	// If data is not available, then load data from the local storage
+	if ( !data )
+		data = await app.getLocalStorageByKey( covidStatsKey );
 
 	// Store in local storage
-	module.setLocalStorageData( data )
-
 	// Now we render the data
 	_renderData( data )
 }
@@ -182,12 +183,12 @@ const toggleData = async ( element ) => {
  * Store API data in the local storage
  * @param {object} data Statistics
  */
-module.setLocalStorageData = ( data ) => {
+module.cleanAndSetLocalStorageData = ( data ) => {
 	// Remove hospital data from the object
 	delete data.hospital_data
 
 	// Store in local storage
-	chrome.storage.sync.set({ covidStats: data })
+	app.setLocalStorageData( covidStatsKey, data )
 }
 
 /**
@@ -216,7 +217,7 @@ module.fetchData = async () => {
 	if ( data ) return data
 
 	// If there is no API data use data we've stored in local storage
-	data = await app.getLocalStorageByKey( 'covidStats' )
+	data = await app.getLocalStorageByKey( covidStatsKey )
 	
 	// If local data is also not available, stop executing
 	if ( typeof data === 'undefined' ) return false
@@ -248,7 +249,7 @@ module.init = async () => {
 	_renderData( data )
 
 	// Store in local storage
-	module.setLocalStorageData( data )
+	module.cleanAndSetLocalStorageData( data )
 
 	// Register events
 	_registerEvents()
