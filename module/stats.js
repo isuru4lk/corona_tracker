@@ -1,4 +1,5 @@
-import app from "./app.js"
+import app from "./app.js";
+import { covidStatsKey, bubbleCountKey } from './constants.js'
 
 // API URL 
 const apiURL = 'http://hpb.health.gov.lk/api/get-current-statistical'
@@ -153,7 +154,7 @@ const toggleSettings = async () => {
 
 /**
  * Toggle data between Sri Lanka and Global
- * @param {*} element 
+ * @param {element} element Toggle icon
  */
 const toggleData = async ( element ) => {
 	// Show loading spinner while data being fetched
@@ -163,7 +164,7 @@ const toggleData = async ( element ) => {
 	element.getAttribute( 'data-type' ) == 'local' ? element.setAttribute( 'data-type', 'global' ) : element.setAttribute( 'data-type', 'local' )
 
 	// Toggle the side of the switch icon
-	element.classList.toggle( 'fa-rotate-180' );
+	element.classList.toggle( 'fa-rotate-180' )
 
 	// Load data from the API / local storage
 	let data = await module.fetchData()
@@ -172,7 +173,7 @@ const toggleData = async ( element ) => {
 	if ( !data ) return
 
 	// Store in local storage
-	module.setLocalStorageData( data )
+	module.cleanAndSetLocalStorageData( data )
 
 	// Now we render the data
 	_renderData( data )
@@ -182,16 +183,17 @@ const toggleData = async ( element ) => {
  * Store API data in the local storage
  * @param {object} data Statistics
  */
-module.setLocalStorageData = ( data ) => {
+module.cleanAndSetLocalStorageData = ( data ) => {
 	// Remove hospital data from the object
 	delete data.hospital_data
 
 	// Store in local storage
-	chrome.storage.sync.set({ covidStats: data })
+	app.setLocalStorageData( covidStatsKey, data )
 }
 
 /**
  * Fetch data from API
+ * @return {object|bool}
  */
 module.fetchAPIData = async () => {
 	try {
@@ -207,6 +209,7 @@ module.fetchAPIData = async () => {
 
 /**
  * Fetch data from API / local storage
+ * @return {object|bool}
  */
 module.fetchData = async () => {
 	// Load data from the API
@@ -216,7 +219,7 @@ module.fetchData = async () => {
 	if ( data ) return data
 
 	// If there is no API data use data we've stored in local storage
-	data = await app.getLocalStorageByKey( 'covidStats' )
+	data = await app.getLocalStorageByKey( covidStatsKey )
 	
 	// If local data is also not available, stop executing
 	if ( typeof data === 'undefined' ) return false
@@ -248,11 +251,14 @@ module.init = async () => {
 	_renderData( data )
 
 	// Store in local storage
-	module.setLocalStorageData( data )
+	module.cleanAndSetLocalStorageData( data )
 
 	// Register events
 	_registerEvents()
+
+	// Update bubbleCount to 0 in local storage
+	await app.setLocalStorageData( bubbleCountKey, 0 )
 }
 
 // Export the module
-export default module;
+export default module
