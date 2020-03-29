@@ -1,5 +1,5 @@
 import app from "./app.js";
-import { covidStatsKey } from './../constants.js'
+import { covidStatsKey, bubbleCountKey } from './constants.js'
 
 // API URL 
 const apiURL = 'http://hpb.health.gov.lk/api/get-current-statistical'
@@ -154,7 +154,7 @@ const toggleSettings = async () => {
 
 /**
  * Toggle data between Sri Lanka and Global
- * @param {*} element 
+ * @param {element} element Toggle icon
  */
 const toggleData = async ( element ) => {
 	// Show loading spinner while data being fetched
@@ -164,17 +164,17 @@ const toggleData = async ( element ) => {
 	element.getAttribute( 'data-type' ) == 'local' ? element.setAttribute( 'data-type', 'global' ) : element.setAttribute( 'data-type', 'local' )
 
 	// Toggle the side of the switch icon
-	element.classList.toggle( 'fa-rotate-180' );
+	element.classList.toggle( 'fa-rotate-180' )
 
-	
-	// Fetch from api
-	let data = await module.fetchData();
+	// Load data from the API / local storage
+	let data = await module.fetchData()
 
-	// If data is not available, then load data from the local storage
-	if ( !data )
-		data = await app.getLocalStorageByKey( covidStatsKey );
+	// If data is not available, stop execution
+	if ( !data ) return
 
 	// Store in local storage
+	module.cleanAndSetLocalStorageData( data )
+
 	// Now we render the data
 	_renderData( data )
 }
@@ -193,6 +193,7 @@ module.cleanAndSetLocalStorageData = ( data ) => {
 
 /**
  * Fetch data from API
+ * @return {object|bool}
  */
 module.fetchAPIData = async () => {
 	try {
@@ -208,6 +209,7 @@ module.fetchAPIData = async () => {
 
 /**
  * Fetch data from API / local storage
+ * @return {object|bool}
  */
 module.fetchData = async () => {
 	// Load data from the API
@@ -253,7 +255,10 @@ module.init = async () => {
 
 	// Register events
 	_registerEvents()
+
+	// Update bubbleCount to 0 in local storage
+	await app.setLocalStorageData( bubbleCountKey, 0 )
 }
 
 // Export the module
-export default module;
+export default module
