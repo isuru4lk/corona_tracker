@@ -5,7 +5,9 @@ With this extension, you'll be able to see the latest COVID-19 statistics across
 * Visit https://chrome.google.com/webstore/detail/covid-19-statistics-sri-l/lpbpopaphioiplpigiahhkkjffiacbdi
 * Click Add to Chrome button to install.
 
-![](screenshots/chrome-store.png)
+<p align="center">
+  <img width="80%" src="screenshots/chrome-store.png">
+</p>
 
 ## How to enable background refresh
 * Click on the extension icon on the browser.
@@ -13,7 +15,9 @@ With this extension, you'll be able to see the latest COVID-19 statistics across
 * Click on background refresh checkbox.
 * Change the background refresh interval as you wish.
 
-![](screenshots/background-refresh.png)
+<p align="center">
+  <img width="60%" src="screenshots/background-refresh.png">
+</p>
 
 ## How to install as a developer
 * Visit chrome://extensions/
